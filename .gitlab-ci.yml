@@ -1,0 +1,37 @@
+stages:
+  - build
+  - release
+
+build:
+  image: docker:19.03.1
+  stage: build
+  services:
+    - docker:19.03.1-dind
+  script:
+    # Login
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    # Pull latest image (this will be used for caching)
+    - docker pull $CI_REGISTRY_IMAGE:latest
+    # Build image using latest image as cache
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest -t $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8} .
+    # Push under using SHA tag
+    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8}
+    # Push image also with the latest tag (this is used for caching)
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8} $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+release:
+  image: docker:19.03.1
+  stage: release
+  services:
+    - docker:19.03.1-dind
+  when: manual
+  script:
+    # Determine tag
+    - export DATE=`date '+%Y%m%d'`
+    - export TAG="${DATE}-${CI_COMMIT_SHA:0:8}-release"
+      # Login
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8}
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8} $CI_REGISTRY_IMAGE:${TAG}
+    - docker push $CI_REGISTRY_IMAGE:${TAG}
