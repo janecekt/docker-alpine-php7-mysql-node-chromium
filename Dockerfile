@@ -38,7 +38,8 @@ RUN echo "https://dl.bintray.com/php-alpine/v3.11/php-7.4" >> /etc/apk/repositor
             php7-iconv=7.4.5-r1 \
             php7-zip=7.4.5-r1 \
             php7-zlib=7.4.5-r1 \
-            composer=1.10.6-r0
+            composer=1.10.6-r0 \
+    && ln -s /usr/bin/php7 /usr/bin/php
 
 
 # Install MySQL Client
