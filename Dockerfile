@@ -54,4 +54,7 @@ RUN apk --no-cache add \
         chromium=83.0.4103.61-r0
 
 
+# Set CHROME_BIN environment variable - this is needed by Karma
+ENV CHROME_BIN=/usr/bin/chromium-browser
+
 USER root
