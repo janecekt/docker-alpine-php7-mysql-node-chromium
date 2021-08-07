@@ -53,6 +53,10 @@ RUN apk --no-cache add \
         yarn=1.22.4-r0 \
         chromium=83.0.4103.61-r0
 
+# Install zip/unzip
+RUN apk --no-cache add \
+        unzip-6.0-r9 \
+        zip-3.0-r8
 
 # Set CHROME_BIN environment variable - this is needed by Karma
 ENV CHROME_BIN=/usr/bin/chromium-browser
