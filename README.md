@@ -22,3 +22,9 @@ docker run -it --network=host -v /my/volume/:/mnt docker-alpine-php7-mysql-node-
 ```
 
 The /my/volume would typically contain your workspace or sources
+
+
+### Contributions ###
+  * **If you wish to contribute and/or submit a pull request please do so on GitLab**
+  * The repository is maintained on GitLab [https://gitlab.com/janecekt/docker-alpine-php7-mysql-node-chromium](https://gitlab.com/janecekt/docker-alpine-php7-mysql-node-chromium) 
+  * It is mirrored to GitHub as a read-only copy but it is not maintained there any more
